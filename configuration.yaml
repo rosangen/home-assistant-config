@@ -1,0 +1,360 @@
+homeassistant:
+  # Name of the location where Home Assistant is running
+  name: Home
+  latitude:  !secret latitude
+  longitude: !secret longitude
+  elevation: 172
+  unit_system: metric
+  time_zone: Europe/Stockholm
+
+  # Customization file
+  customize: !include customize.yaml
+
+# Enables the frontend
+frontend:
+
+# Enables configuration UI
+config:
+
+http:
+  api_password: !secret http_password
+  trusted_networks:
+    - 192.168.2.0/24
+    - 127.0.0.1
+
+influxdb:
+  include:
+    entities:
+      - sensor.power_puls
+      - sensor.power_usage
+      - sensor.power_whh
+      - sensor.power_daily
+      - sensor.power_kwh
+      - sensor.burner_kw
+      - sensor.power_detect
+
+      - sensor.burner_bagday
+      - sensor.burner_consumed
+      - sensor.burner_kgday
+      - sensor.burner_truns
+      - sensor.pelles_bags_home
+      - sensor.pelles_bags_in_storage
+      - sensor.pelles_in_storage
+
+
+      - sensor.out_temp_back
+      - sensor.temperatur_upp
+      - sensor.out_humid_mq
+      - sensor.out_temp_mq
+      - sensor.out_temp_rf
+      - sensor.out_humid_nbor1
+      - sensor.out_temp_nbor1
+      - sensor.temperatur_boiler
+      - sensor.temperatur_feed
+      - sensor.temperatur_return
+      - sensor.rain_total_1
+      - sensor.rain_rate_1
+ 
+
+# Checks for available updates Note: This component will send some information about your system to 
+# the developers to assist with development of Home Assistant. For more information, please see: 
+# https://home-assistant.io/blog/2016/10/25/explaining-the-updater/
+updater:
+  # Optional, allows Home Assistant developers to focus on popular components.
+  # include_used_components: true
+
+# Discover some devices automatically
+discovery:
+
+# Allows you to issue voice commands from the frontend in enabled browsers
+conversation:
+
+# Enables support for tracking state changes over time
+history:
+
+# View all events in a logbook
+logbook:
+
+# Track the sun
+sun:
+
+mqtt:
+
+rflink:
+  #port: /dev/serial/by-id/usb-1a86_USB2.0-Serial-if00-port0
+  host: 192.168.2.160
+  port: 23
+  reconnect_interval: 60
+  ignore_devices:
+    - cresta_1*
+
+sensor:
+  - platform: yr
+
+  - platform: rflink
+    automatic_add: false
+    devices:
+      xiron_6101_temp:
+        name: Out Temp MQ
+        sensor_type: temperature
+
+      xiron_6501_temp:
+        name: Out Temp nbor1
+        sensor_type: temperature
+
+      auriolv2_1b01_temp:
+        name: Out Temp rf
+        sensor_type: temperature
+
+      oregonrain2_2a83_rain:
+        name: Rain total 1
+        sensor_type: total_rain
+      oregonrain2_2a83_rainrate:
+        name: Rain rate 1
+        sensor_type: rain_rate
+
+
+  # Temperaturs
+
+  - platform: mqtt
+    state_topic: 'home/sensor1/28ff248334036'
+    name: 'Out temp Back'
+    #sensor_type: temperature
+    unit_of_measurement: '°C'
+    value_template: >
+       {{ (float(value) / 100)|round(1)}}
+
+  - platform: mqtt
+    state_topic: 'home/sensor1/28897b34500c'
+    name: 'Temperatur Upp'
+    #sensor_type: temperature
+    unit_of_measurement: '°C'
+    value_template: >
+       {{ (float(value) / 100)|round(1)}}
+
+  - platform: mqtt
+    state_topic: 'home/sensor1/28ff8d514b40f3'
+    name: 'Temperatur Boiler'
+    #sensor_type: temperature
+    unit_of_measurement: '°C'
+    value_template: >
+       {{ (float(value) / 100)|round(1)}}
+  - platform: mqtt
+    state_topic: 'home/sensor1/28311665005a'
+    name: 'Temperatur Feed'
+    #sensor_type: temperature
+    unit_of_measurement: '°C'
+    value_template: >
+       {{ (float(value) / 100)|round(1)}}
+  - platform: mqtt
+    state_topic: 'home/sensor1/28bd8334500a5'
+    name: 'Temperatur Return'
+    #sensor_type: temperature
+    unit_of_measurement: '°C'
+    value_template: >
+       {{ (float(value) / 100)|round(1)}}
+
+
+  #Power meter pellets burner:
+
+  - platform: mqtt
+    state_topic: 'home/sensor1/turn'
+    name: 'Burner Truns'
+    unit_of_measurement: 'Turn'
+
+  - platform: mqtt
+    state_topic: 'home/sensor1/bagday'
+    name: 'Burner Bag/Day'
+    unit_of_measurement: 'Bag'
+    value_template: >
+       {{ (float(value) / 1000)|round(2)}}
+
+  - platform: mqtt
+    state_topic: 'home/sensor1/gramtoday'
+    name: 'Burner Consumed'
+    unit_of_measurement: 'Kg'
+    value_template: >
+       {{ (float(value) / 1000)|round(2)}}
+
+  - platform: mqtt
+    state_topic: 'home/sensor1/gramday'
+    name: 'Burner Kg/day'
+    unit_of_measurement: 'Kg'
+    value_template: >
+       {{ (float(value) / 1000)|round(2)}}
+
+  - platform: mqtt
+    state_topic: 'home/sensor1/storage'
+    name: 'Pelles in Storage'
+    unit_of_measurement: 'Kg'
+    value_template: >
+       {{ (float(value) / 1000)|round(1)}}
+
+  - platform: mqtt
+    state_topic: 'home/sensor1/storage'
+    name: 'Pelles Bags in Storage'
+    unit_of_measurement: 'Bag'
+    value_template: >
+       {{ (float(value) / 1000/16)|round(2)}}
+
+  - platform: mqtt
+    state_topic: 'home/sensor1/baghome'
+    name: 'Pelles Bags Home'
+    unit_of_measurement: 'Bag'
+
+  - platform: mqtt
+    state_topic: 'home/sensor1/burnerkw'
+    name: 'Burner kW'
+    unit_of_measurement: 'kW'
+    value_template: >
+       {{ (float(value) / 1000)|round(2)}}
+
+
+
+  #Power meter pulse/blink:
+
+  - platform: mqtt
+    state_topic: 'home/sensor1/meter'
+    name: 'Power puls'
+    unit_of_measurement: 'Pulse'
+    value_template: '{{ value_json.pulse }}'
+
+  - platform: mqtt
+    state_topic: 'home/sensor1/meter'
+    name: 'Power usage'
+    unit_of_measurement: 'Watt'
+    value_template: '{{ value_json.watt }}'
+
+  - platform: mqtt
+    state_topic: 'home/sensor1/wh'
+    name: 'Power Wh/h'
+    unit_of_measurement: 'Wh'
+
+  - platform: mqtt
+    state_topic: 'home/sensor1/whd'
+    name: 'Power Daily'
+    unit_of_measurement: 'kWh'
+    value_template: >
+       {{ (float(value) / 1000)|round(1)}}
+
+  - platform: mqtt
+    state_topic: 'home/sensor1/kwh'
+    name: 'Power kWh'
+    unit_of_measurement: 'kWh'
+
+  - platform: mqtt
+    state_topic: 'home/sensor1/dc'
+    name: 'Power detect'
+    unit_of_measurement: 'Count'
+
+
+light:
+  - platform: rflink
+    device_defaults:
+      signal_repetitions: 4
+    
+    automatic_add: false
+
+    devices:
+      ab400d_58_1:
+        name: TVrummet
+      ab400d_58_2:
+        name: Burner
+
+      newkaku_00543702_2:
+        name: Ute uppe
+      newkaku_00543702_3:
+        name: Ute nere
+      newkaku_00543702_4:
+        name: Atelje
+#      newkaku_00543702_5:
+#        name: Kök
+#      newkaku_00543702_6:
+#        name: Cirkpump
+#      newkaku_00543702_7:
+#        name: ?
+#      newkaku_00543702_8:
+#        name: ?
+#      newkaku_00543702_8:
+#        name: Ute julbelys
+
+      newkaku_20171109_1:
+        name: Dimmer
+        type: dimmable
+
+      newkaku_00003021_2:
+        name: Sovrum
+        type: dimmable
+
+      newkaku_014975da_b:
+        name: KnappV
+      newkaku_014975da_c:
+        name: KnappH
+
+      newkaku_014ee05e_b:
+        name: Badrum
+
+      ansluta_65b7_0:
+        name: Kök bänkar
+        type: dimmable
+      ansluta_7852_0:
+        name: Kök vitrin
+        type: dimmable
+
+switch:
+  - platform: mqtt
+    name: Office light
+    state_topic: '/ESP1/relay/state'
+    command_topic: '/ESP1/gpio/16'
+    payload_on: "0"
+    payload_off: "1"
+    # optimistic: true
+    qos: 1
+    retain: true
+
+  - platform: mqtt
+    name: Knapp
+    state_topic: '/ESP1/switch/state'
+    command_topic: '/ESP1/gpio/14'
+    payload_on: "0"
+    payload_off: "1"
+    # optimistic: true
+    qos: 1
+    retain: true
+
+
+binary_sensor:
+  - platform: mqtt
+    state_topic: "home/sensor1/burnerOn"
+    name: "Burner"
+    payload_on: "1"
+    payload_off: "0"
+
+
+# Text to speech
+tts:
+  - platform: google
+
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
+
+
+panel_iframe:
+  grafana:
+    title: 'grafana'
+    url: 'http://192.168.2.25:3000'
+
+weblink:
+  entities:
+    - name: Pellets
+      url: !secret url-update-link
+    - name: Home Assistant
+      url: https://home-assistant.io
+
+logger:
+  # default: warning
+  # logs:
+    # homeassistant.components.mqtt: debug
+    # rflink: debug
+    # homeassistant.components.rflink: debug

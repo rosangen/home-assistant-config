@@ -1,0 +1,105 @@
+- id: sunset_1
+  alias: Sol ned!
+  trigger:
+    platform: sun
+    event: sunset
+    offset: "00:00:00"
+  action:
+    service: light.turn_on
+    entity_id:
+      - light.ute_nere
+      - light.ute_uppe
+      - light.atelje
+      - light.tvrummet
+
+- id: sunrise_1
+  alias: Sol upp!
+  trigger:
+    platform: sun
+    event: sunrise
+    offset: "00:00:00"
+  action:
+    service: light.turn_off
+    entity_id:
+      - light.ute_nere
+      - light.ute_uppe
+      - light.atelje
+      - light.tvrummet
+
+
+- id: turnoff1
+  alias: Släck tv-rum 23:00 
+  trigger:
+    platform: time
+    at: '23:00:00'
+  action:
+    service: light.turn_off
+    entity_id:
+      - light.tvrummet
+- id: turnoff2
+  alias: Släck ute nere 22:30
+  trigger:
+    platform: time
+    at: '22:30:00'
+  action:
+    service: light.turn_off
+    entity_id:
+      - light.ute_nere
+
+
+- id: Trappen-day
+  alias: Ljusare i trappen kl 8:00
+  trigger:
+    platform: time
+    at: '08:00:00'
+  action:
+    - service: light.turn_on
+      data:
+        entity_id: light.trapp_lampa
+        brightness: 200
+- id: Trappen-evening
+  alias: Mörkare i trappen kl 20:00
+  trigger:
+    platform: time
+    at: '20:00:00'
+  action:
+    - service: light.turn_on
+      data:
+        entity_id: light.trapp_lampa
+        brightness: 100
+- id: Trappen-night
+  alias: Mörkt i trappen kl 22:00
+  trigger:
+    platform: time
+    at: '22:00:00'
+  action:
+    - service: light.turn_on
+      data:
+        entity_id: light.trapp_lampa
+        brightness: 1
+
+
+- id: Test dimmer 2
+  alias: Test dimmer 2%
+  trigger:
+    platform: state
+    entity_id: light.knappv
+    to: 'on'
+  action:
+    - service: light.turn_on
+      data:
+        entity_id: light.dimmer
+        brightness: 2
+
+- id: Test dimmer 50
+  alias: Test dimmer 50%
+  trigger:
+    platform: state
+    entity_id: light.knappv
+    to: 'off'
+  action:
+    - service: light.turn_on
+      data:
+        entity_id: light.dimmer
+        brightness: 50
+

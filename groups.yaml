@@ -1,0 +1,25 @@
+boiler_room:
+  name: Pannrum
+  view: yes
+  entities:
+    - binary_sensor.burner
+    - light.burner
+    - sensor.burner_bagday
+    - sensor.burner_consumed
+    - sensor.burner_kgday
+    - sensor.burner_kw
+    - sensor.burner_truns
+    - sensor.pelles_bags_home
+    - sensor.pelles_bags_in_storage
+    - sensor.pelles_in_storage
+    - sensor.power_daily
+    - sensor.power_detect
+    - sensor.power_kwh
+    - sensor.power_puls
+    - sensor.power_usage
+    - sensor.power_whh
+    - sensor.temperatur_boiler
+    - sensor.temperatur_feed
+    - sensor.temperatur_return
+    - sensor.out_temp_back
+
