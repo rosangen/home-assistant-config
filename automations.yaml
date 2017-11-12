@@ -83,23 +83,45 @@
   alias: Test dimmer 2%
   trigger:
     platform: state
-    entity_id: light.knappv
+    entity_id: switch.knappv
     to: 'on'
   action:
     - service: light.turn_on
       data:
         entity_id: light.dimmer
         brightness: 2
-
 - id: Test dimmer 50
-  alias: Test dimmer 50%
+  alias: Test dimmer 10%
   trigger:
     platform: state
-    entity_id: light.knappv
+    entity_id: switch.knappv
     to: 'off'
   action:
     - service: light.turn_on
       data:
         entity_id: light.dimmer
+        brightness: 10
+- id: Test dimmer 3
+  alias: Test dimmer 50%
+  trigger:
+    platform: state
+    entity_id: switch.knapph
+    to: 'on'
+  action:
+    - service: light.turn_on
+      data:
+        entity_id: light.dimmer
         brightness: 50
+
+- id: Test dimmer 4
+  alias: Test dimmer 100%
+  trigger:
+    platform: state
+    entity_id: switch.knapph
+    to: 'off'
+  action:
+    - service: light.turn_off
+      data:
+        entity_id: light.dimmer
+
 

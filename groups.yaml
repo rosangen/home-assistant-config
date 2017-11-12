@@ -22,4 +22,5 @@ boiler_room:
     - sensor.temperatur_feed
     - sensor.temperatur_return
     - sensor.out_temp_back
-
+    - sensor.burner_kg_small_clean
+    - sensor.burner_kg_bigg_clean

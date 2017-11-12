@@ -40,7 +40,8 @@ influxdb:
       - sensor.pelles_bags_home
       - sensor.pelles_bags_in_storage
       - sensor.pelles_in_storage
-
+      - sensor.burner_kg_small_clean
+      - sensor.burner_kg_bigg_clean
 
       - sensor.out_temp_back
       - sensor.temperatur_upp
@@ -52,6 +53,7 @@ influxdb:
       - sensor.temperatur_boiler
       - sensor.temperatur_feed
       - sensor.temperatur_return
+      - sensor.temperatur_freezer_down
       - sensor.rain_total_1
       - sensor.rain_rate_1
  
@@ -85,14 +87,14 @@ rflink:
   host: 192.168.2.160
   port: 23
   reconnect_interval: 60
-  ignore_devices:
-    - cresta_1*
+#  ignore_devices:
+#    - cresta_1*
 
 sensor:
   - platform: yr
 
   - platform: rflink
-    automatic_add: false
+#    automatic_add: false
     devices:
       xiron_6101_temp:
         name: Out Temp MQ
@@ -104,6 +106,10 @@ sensor:
 
       auriolv2_1b01_temp:
         name: Out Temp rf
+        sensor_type: temperature
+
+      fineoffset_0097_temp:
+        name: Temperatur freezer down
         sensor_type: temperature
 
       oregonrain2_2a83_rain:
@@ -209,6 +215,16 @@ sensor:
     value_template: >
        {{ (float(value) / 1000)|round(2)}}
 
+  - platform: mqtt
+    state_topic: 'home/sensor1/clean'
+    name: 'Burner Kg small clean'
+    unit_of_measurement: 'Kg'
+    value_template: '{{ value_json.s-cleankg }}'
+  - platform: mqtt
+    state_topic: 'home/sensor1/clean'
+    name: 'Burner Kg bigg clean'
+    unit_of_measurement: 'Kg'
+    value_template: '{{ value_json.b-cleankg }}'
 
 
   #Power meter pulse/blink:
@@ -275,7 +291,7 @@ light:
 #        name: ?
 #      newkaku_00543702_8:
 #        name: ?
-#      newkaku_00543702_8:
+#      newkaku_00543702_9:
 #        name: Ute julbelys
 
       newkaku_20171109_1:
@@ -285,11 +301,6 @@ light:
       newkaku_00003021_2:
         name: Sovrum
         type: dimmable
-
-      newkaku_014975da_b:
-        name: KnappV
-      newkaku_014975da_c:
-        name: KnappH
 
       newkaku_014ee05e_b:
         name: Badrum
@@ -302,6 +313,16 @@ light:
         type: dimmable
 
 switch:
+  - platform: rflink
+    devices:
+      newkaku_014975da_b:
+        name: KnappV
+        fire_event: true
+      newkaku_014975da_c:
+        name: KnappH
+        fire_event: true
+
+
   - platform: mqtt
     name: Office light
     state_topic: '/ESP1/relay/state'
@@ -353,8 +374,8 @@ weblink:
       url: https://home-assistant.io
 
 logger:
-  # default: warning
-  # logs:
-    # homeassistant.components.mqtt: debug
-    # rflink: debug
-    # homeassistant.components.rflink: debug
+   default: warning
+   logs:
+     homeassistant.components.mqtt: debug
+     rflink: debug
+     homeassistant.components.rflink: debug
