@@ -8,10 +8,10 @@
     for:
       minutes: 1
   action:
-    # Actions are scripts so can also be a list of actions
     - service: notify.henrik
       data:
         message: Pannan är under 60 grader nu!!!
+        title: "The Boiler!"
 
 - id: pellets_10kg_left
   alias: 10Kg pellets kvar
@@ -20,10 +20,31 @@
     entity_id: sensor.pelles_in_storage
     below: 10
   action:
-    # Actions are scripts so can also be a list of actions
     - service: notify.henrik
       data:
         message: Under 10kg pellets i förrådet! Fyllpå!
         title: "The Boiler!"
 
+- id: pellets_6kg_left
+  alias: 6Kg pellets kvar
+  trigger:
+    platform: numeric_state
+    entity_id: sensor.pelles_in_storage
+    below: 6
+  action:
+    - service: notify.henrik
+      data:
+        message: Under 6kg pellets i förrådet! Fyllpå för bövulen!!!
+        title: "The Boiler!!"
+
+- id: freezer_down
+  alias: Frycen nera varm
+  trigger:
+    platform: numeric_state
+    entity_id: sensor.temperatur_freezer_down
+    above: -14
+  action:
+    - service: notify.henrik
+      data:
+        message: "Frysen nere är varm!"
 
