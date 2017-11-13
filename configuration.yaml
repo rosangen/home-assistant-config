@@ -22,6 +22,11 @@ http:
     - 192.168.2.0/24
     - 127.0.0.1
 
+notify:
+  - name: henrik
+    platform: pushbullet
+    api_key: !secret pushbullet_api_key
+
 influxdb:
   include:
     entities:
@@ -219,12 +224,12 @@ sensor:
     state_topic: 'home/sensor1/clean'
     name: 'Burner Kg small clean'
     unit_of_measurement: 'Kg'
-    value_template: '{{ value_json.s-cleankg }}'
+    value_template: '{{ value_json.s_cleankg }}'
   - platform: mqtt
     state_topic: 'home/sensor1/clean'
     name: 'Burner Kg bigg clean'
     unit_of_measurement: 'Kg'
-    value_template: '{{ value_json.b-cleankg }}'
+    value_template: '{{ value_json.b_cleankg }}'
 
 
   #Power meter pulse/blink:
@@ -357,7 +362,7 @@ tts:
   - platform: google
 
 group: !include groups.yaml
-automation: !include automations.yaml
+automation: !include_dir_merge_list automations/
 script: !include scripts.yaml
 
 

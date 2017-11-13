@@ -1,0 +1,29 @@
+- id: boiler_cold
+  alias: Pannan kall
+  trigger:
+    platform: numeric_state
+    entity_id: sensor.temperatur_boiler
+    # At least one of the following required
+    below: 60
+    for:
+      minutes: 1
+  action:
+    # Actions are scripts so can also be a list of actions
+    - service: notify.henrik
+      data:
+        message: Pannan är under 60 grader nu!!!
+
+- id: pellets_10kg_left
+  alias: 10Kg pellets kvar
+  trigger:
+    platform: numeric_state
+    entity_id: sensor.pelles_in_storage
+    below: 10
+  action:
+    # Actions are scripts so can also be a list of actions
+    - service: notify.henrik
+      data:
+        message: Under 10kg pellets i förrådet! Fyllpå!
+        title: "The Boiler!"
+
+
