@@ -58,6 +58,7 @@ influxdb:
       - sensor.temperatur_boiler
       - sensor.temperatur_feed
       - sensor.temperatur_return
+      - sensor.temperatur_feed_return_diff
       - sensor.temperatur_freezer_down
       - sensor.rain_total_1
       - sensor.rain_rate_1
@@ -160,6 +161,13 @@ sensor:
   - platform: mqtt
     state_topic: 'home/sensor1/28bd8334500a5'
     name: 'Temperatur Return'
+    #sensor_type: temperature
+    unit_of_measurement: '°C'
+    value_template: >
+       {{ (float(value) / 100)|round(1)}}
+  - platform: mqtt
+    state_topic: 'home/sensor1/feedreturn'
+    name: 'Temperatur Feed Return diff'
     #sensor_type: temperature
     unit_of_measurement: '°C'
     value_template: >
@@ -272,13 +280,15 @@ sensor:
 light:
   - platform: rflink
     device_defaults:
-      signal_repetitions: 4
+      signal_repetitions: 3
     
     automatic_add: false
 
     devices:
-      ab400d_58_1:
-        name: TVrummet
+      ab400d_42_1:
+        name: Fönster TV-rum
+      ab400d_42_3:
+        name: Fönster Kök
       ab400d_58_2:
         name: Burner
 
@@ -287,13 +297,11 @@ light:
       newkaku_00543702_3:
         name: Ute nere
       newkaku_00543702_4:
-        name: Atelje
+        name: Fönster Atelje
 #      newkaku_00543702_5:
-#        name: Kök
+#        name: Fönster 1
 #      newkaku_00543702_6:
-#        name: Cirkpump
-#      newkaku_00543702_7:
-#        name: ?
+#        name: Fönster Kök
 #      newkaku_00543702_8:
 #        name: ?
 #      newkaku_00543702_9:
@@ -302,6 +310,11 @@ light:
       newkaku_20171109_1:
         name: Dimmer
         type: dimmable
+
+      newkaku_20171109_3:
+        name: Ute Uthus
+        type: dimmable
+        signal_repetitions: 8
 
       newkaku_00003021_2:
         name: Sovrum
@@ -326,6 +339,10 @@ switch:
       newkaku_014975da_c:
         name: KnappH
         fire_event: true
+
+      #Remote:
+      ab400d_42_2:
+        name: Lampa Matplats
 
 
   - platform: mqtt

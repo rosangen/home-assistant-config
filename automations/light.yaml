@@ -3,14 +3,26 @@
   trigger:
     platform: sun
     event: sunset
-    offset: "00:00:00"
+    offset: "-00:45:00"
   action:
-    service: light.turn_on
-    entity_id:
-      - light.ute_nere
-      - light.ute_uppe
-      - light.atelje
-      - light.tvrummet
+    - service: light.turn_on
+      entity_id:
+        - light.fonster_kok
+    - delay: 0:45
+    - service: light.turn_on
+      entity_id:
+        - light.ute_nere
+        - light.ute_uppe
+        - light.fonster_atelje
+        - light.fonster_tvrum
+    - delay: 0:30
+    - service: light.turn_on
+      data:
+        entity_id: light.ute_uthus
+        brightness: 120
+
+
+
 
 - id: sunrise_1
   alias: Sol upp!
@@ -19,12 +31,17 @@
     event: sunrise
     offset: "00:00:00"
   action:
-    service: light.turn_off
-    entity_id:
-      - light.ute_nere
-      - light.ute_uppe
-      - light.atelje
-      - light.tvrummet
+    - service: light.turn_off
+      entity_id:
+        - light.ute_nere
+        - light.ute_uppe
+        - light.fonster_atelje
+        - light.fonster_tvrum
+        - light.ute_uthus
+    - delay: 0:45
+    - service: light.turn_off
+      entity_id:
+        - light.fonster_kok
 
 
 - id: turnoff1
@@ -35,7 +52,7 @@
   action:
     service: light.turn_off
     entity_id:
-      - light.tvrummet
+      - light.fonster_tvrum
 - id: turnoff2
   alias: Släck ute nere 22:30
   trigger:
@@ -77,4 +94,49 @@
       data:
         entity_id: light.trapp_lampa
         brightness: 1
+    - service: light.turn_on
+      data:
+        entity_id: light.ute_uthus
+        brightness: 120
+
+
+- id: sunset_15
+  alias: Tänder i fågelrummet innan solnedgång
+  trigger:
+    platform: sun
+    event: sunset
+    offset: "-00:30:00"
+  action:
+    - service: light.turn_on
+      data:
+        entity_id:  light.fagelrum_lampa
+        brightness: 172
+
+
+
+- id: Food_place_on
+  alias: Matbordet ljus på
+  trigger:
+    platform: state
+    entity_id: switch.lampa_matplats
+    to: 'on'
+  action:
+    service: light.turn_on
+    entity_id:
+      - light.lampa_kok_1
+      - light.lampa_kok_2
+#    data:
+#      brightness: 10
+
+- id: Food_place_off
+  alias: Matbordet ljus av
+  trigger:
+    platform: state
+    entity_id: switch.lampa_matplats
+    to: 'off'
+  action:
+    service: light.turn_off
+    entity_id:
+      - light.lampa_kok_1
+      - light.lampa_kok_2
 

@@ -13,6 +13,18 @@
         message: Pannan är under 60 grader nu!!!
         title: "The Boiler!"
 
+- id: pellets_16kg_left
+  alias: 16Kg pellets kvar
+  trigger:
+    platform: numeric_state
+    entity_id: sensor.pelles_in_storage
+    below: 16
+  action:
+    - service: notify.henrik
+      data:
+        message: Under 16kg pellets i förrådet! Fyllpå!
+        title: "The Boiler!"
+
 - id: pellets_10kg_left
   alias: 10Kg pellets kvar
   trigger:
@@ -22,23 +34,22 @@
   action:
     - service: notify.henrik
       data:
-        message: Under 10kg pellets i förrådet! Fyllpå!
-        title: "The Boiler!"
-
-- id: pellets_6kg_left
-  alias: 6Kg pellets kvar
+        message: Under 10kg pellets i förrådet! Fyllpå för bövulen!!!
+        title: "The Boiler!!"
+- id: pellets_5kg_left
+  alias: 5Kg pellets kvar
   trigger:
     platform: numeric_state
     entity_id: sensor.pelles_in_storage
-    below: 6
+    below: 5
   action:
     - service: notify.henrik
       data:
-        message: Under 6kg pellets i förrådet! Fyllpå för bövulen!!!
+        message: Under 5 kg of pellets in the storage! Move!!!
         title: "The Boiler!!"
 
 - id: freezer_down
-  alias: Frycen nera varm
+  alias: Frysen nera varm
   trigger:
     platform: numeric_state
     entity_id: sensor.temperatur_freezer_down

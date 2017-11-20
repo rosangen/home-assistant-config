@@ -21,6 +21,27 @@ boiler_room:
     - sensor.temperatur_boiler
     - sensor.temperatur_feed
     - sensor.temperatur_return
+    - sensor.temperatur_feed_return_diff
     - sensor.out_temp_back
     - sensor.burner_kg_small_clean
     - sensor.burner_kg_bigg_clean
+
+lampor:
+  name: Lampor
+  view: yes
+  entities:
+    - light.sovrum
+    - light.fagelrum_lampa
+    - light.fonster_atelje
+    - light.fonster_kok
+    - light.fonster_tvrum
+    - light.koket_taket
+    - light.lampa_kok_1
+    - light.lampa_kok_1
+    - light.trapp_lampa
+    - light.ute_nere
+    - light.ute_uppe
+    - light.ute_uthus
+    - sensor.temperatur_boiler
+    - sensor.out_temp_back
+    - sensor.temperatur_upp
