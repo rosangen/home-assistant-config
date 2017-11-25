@@ -4,13 +4,13 @@
     platform: numeric_state
     entity_id: sensor.temperatur_boiler
     # At least one of the following required
-    below: 60
+    below: 55
     for:
       minutes: 1
   action:
     - service: notify.henrik
       data:
-        message: Pannan är under 60 grader nu!!!
+        message: Pannan är under 55 grader nu!!!
         title: "The Boiler!"
 
 - id: pellets_16kg_left
@@ -53,9 +53,19 @@
   trigger:
     platform: numeric_state
     entity_id: sensor.temperatur_freezer_down
-    above: -14
+    above: -16
   action:
     - service: notify.henrik
       data:
         message: "Frysen nere är varm!"
 
+- id: freezer_up
+  alias: Frysen uppe varm
+  trigger:
+    platform: numeric_state
+    entity_id: sensor.temperatur_freezer_up
+    above: -16
+  action:
+    - service: notify.henrik
+      data:
+        message: "Frysen uppe är varm!"

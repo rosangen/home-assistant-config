@@ -60,6 +60,7 @@ influxdb:
       - sensor.temperatur_return
       - sensor.temperatur_feed_return_diff
       - sensor.temperatur_freezer_down
+      - sensor.temperatur_freezer_up
       - sensor.rain_total_1
       - sensor.rain_rate_1
  
@@ -116,6 +117,10 @@ sensor:
 
       fineoffset_0097_temp:
         name: Temperatur freezer down
+        sensor_type: temperature
+
+      xiron_3701_temp:
+        name: Temperatur freezer up
         sensor_type: temperature
 
       oregonrain2_2a83_rain:
@@ -275,7 +280,6 @@ sensor:
     state_topic: 'home/sensor1/dc'
     name: 'Power detect'
     unit_of_measurement: 'Count'
-
 
 light:
   - platform: rflink

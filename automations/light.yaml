@@ -3,26 +3,23 @@
   trigger:
     platform: sun
     event: sunset
-    offset: "-00:45:00"
+    offset: "-01:15:00"
   action:
     - service: light.turn_on
       entity_id:
         - light.fonster_kok
-    - delay: 0:45
+    - delay: 1:15
     - service: light.turn_on
       entity_id:
         - light.ute_nere
         - light.ute_uppe
         - light.fonster_atelje
         - light.fonster_tvrum
-    - delay: 0:30
+    - delay: 0:45
     - service: light.turn_on
       data:
         entity_id: light.ute_uthus
-        brightness: 120
-
-
-
+        brightness: 250
 
 - id: sunrise_1
   alias: Sol upp!
@@ -38,14 +35,13 @@
         - light.fonster_atelje
         - light.fonster_tvrum
         - light.ute_uthus
-    - delay: 0:45
+    - delay: 1:00
     - service: light.turn_off
       entity_id:
         - light.fonster_kok
 
-
 - id: turnoff1
-  alias: Släck tv-rum 23:00
+  alias: Släck tv-rum m.m 23:00
   trigger:
     platform: time
     at: '23:00:00'
@@ -53,6 +49,7 @@
     service: light.turn_off
     entity_id:
       - light.fonster_tvrum
+      - light.fonster_kok
 - id: turnoff2
   alias: Släck ute nere 22:30
   trigger:
